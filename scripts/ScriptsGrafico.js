@@ -1,5 +1,20 @@
 const canvasChart = document.getElementById('myChart');
 
+document.querySelectorAll('.btn-check').forEach(btn => {
+    btn.addEventListener('click', e => {
+        geraGrafico[e.target.dataset.type]();
+    });
+});
+
+let cores = [
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(255, 159, 64, 0.2)',
+    'rgba(255, 205, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(201, 203, 207, 0.2)'
+];
 
 
 
@@ -9,76 +24,84 @@ const canvasChart = document.getElementById('myChart');
 */
 const geraGrafico = {
     criaGrafico: function (type) {
-        new Chart(canvasChart, type);
+        if (window.myChart instanceof Chart) {
+            window.myChart.destroy();
+        }
+
+        window.myChart = new Chart(canvasChart, type);
     },
     bar: function () {
-
-        let cores = [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(201, 203, 207, 0.2)'
-        ];
-
         this.criaGrafico({
             type: 'bar',
             data: {
                 labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
                 datasets: [{
-                    label: 'My First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    backgroundColor: cores,
-                    borderColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(255, 159, 64)',
-                        'rgb(255, 205, 86)',
-                        'rgb(75, 192, 192)',
-                        'rgb(54, 162, 235)',
-                        'rgb(153, 102, 255)',
-                        'rgb(201, 203, 207)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                animations: {
-                    tension: {
-                        duration: 1000,
-                        easing: 'linear',
-                        from: 1,
-                        to: 0,
-                        loop: true
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
+                        label: 'Vendas',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        borderWidth: 1
                     },
-                    x: {
-                        beginAtZero: true
+                    {
+                        label: 'Compras',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        borderWidth: 1
                     }
-                }
-            }
+
+                ]
+            },
         });
 
     },
-    bubble: function () {},
-    doughnut: function () {},
-    pie: function () {},
+    bubble: function () {
+        this.criaGrafico({
+            type: 'bubble',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [{
+                        x: 10,
+                        y: 20,
+                        r: 5
+                    }, {
+                        x: 15,
+                        y: 10,
+                        r: 10
+                    }, {
+                        x: 20,
+                        y: 6,
+                        r: 15
+                    }, {
+                        x: 25,
+                        y: 12,
+                        r: 20
+                    }, {
+                        x: 30,
+                        y: 18,
+                        r: 25
+                    }, {
+                        x: 35,
+                        y: 30,
+                        r: 30
+                    }],
+                    borderWidth: 1
+                }]
+            },
+        });
+    },
+    doughnut: function () {
+        this.criaGrafico({
+            type: 'doughnut',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1
+                }]
+            },
+        });
+    },
     line: function () {
-        let cores = [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(201, 203, 207, 0.2)'
-        ];
-
         this.criaGrafico({
             type: 'line',
             data: {
@@ -86,44 +109,101 @@ const geraGrafico = {
                 datasets: [{
                     label: 'My First Dataset',
                     data: [65, 59, 80, 81, 56, 55, 40],
-                    backgroundColor: cores,
-                    borderColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(255, 159, 64)',
-                        'rgb(255, 205, 86)',
-                        'rgb(75, 192, 192)',
-                        'rgb(54, 162, 235)',
-                        'rgb(153, 102, 255)',
-                        'rgb(201, 203, 207)'
-                    ],
                     borderWidth: 1
                 }]
             },
             options: {
                 animations: {
                     tension: {
-                        duration: 3000,
+                        duration: 30000,
                         easing: 'linear',
                         from: .2,
                         to: 0,
                         loop: true
                     }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    },
-                    x: {
-                        beginAtZero: true
-                    }
-                }
             }
         });
     },
-    polarArea: function () {},
-    radar: function () {},
-    scatter: function () {},
+    area: function () {
+        this.criaGrafico({
+            type: 'polarArea',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1
+                }]
+            },
+        });
+    },
+    radar: function () {
+        this.criaGrafico({
+            type: 'radar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: cores,
+                    borderColor: cores,
+                    borderWidth: 1
+                }]
+            },
+        });
+    },
+    scatter: function () {
+        this.criaGrafico({
+            type: 'scatter',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [{
+                        x: 10,
+                        y: 20,
+                        r: 5
+                    }, {
+                        x: 15,
+                        y: 10,
+                        r: 10
+                    }, {
+                        x: 20,
+                        y: 6,
+                        r: 15
+                    }, {
+                        x: 25,
+                        y: 12,
+                        r: 20
+                    }, {
+                        x: 30,
+                        y: 18,
+                        r: 25
+                    }, {
+                        x: 35,
+                        y: 30,
+                        r: 30
+                    }],
+                    borderWidth: 1
+                }]
+            },
+        });
+    },
+
+    pie: function () {
+        this.criaGrafico({
+            type: 'pie',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1
+                }],
+                hoverOffset: 4
+            },
+
+        });
+    }
 }
-
-
-geraGrafico.line();
